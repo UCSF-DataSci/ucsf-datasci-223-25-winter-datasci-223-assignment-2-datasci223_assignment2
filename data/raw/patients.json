@@ -1,0 +1,20 @@
+[
+    {
+        "name": "john smith",
+        "age": "32",
+        "gender": "male",
+        "diagnosis": "hypertension"
+    },
+    {
+        "name": "sarah johnson",
+        "age": "17",
+        "gender": "female",
+        "diagnosis": "influenza"
+    },
+    {
+        "name": "robert williams",
+        "age": "45",
+        "gender": "male",
+        "diagnosis": "diabetes"
+    }
+] 

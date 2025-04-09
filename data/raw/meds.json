@@ -1,0 +1,26 @@
+[
+    {
+        "name": "John Smith",
+        "weight": 80.0,
+        "medication": "epinephrine",
+        "condition": "anaphylaxis",
+        "is_first_dose": false,
+        "allergies": ["penicillin"]
+    },
+    {
+        "name": "Sarah Johnson",
+        "weight": 60.0,
+        "medication": "amiodarone",
+        "condition": "cardiac arrest",
+        "is_first_dose": true,
+        "allergies": []
+    },
+    {
+        "name": "Robert Williams",
+        "weight": 90.0,
+        "medication": "lorazepam",
+        "condition": "seizure",
+        "is_first_dose": true,
+        "allergies": ["aspirin"]
+    }
+] 
