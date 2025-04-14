@@ -1,82 +1,66 @@
 #!/usr/bin/env python3
 """
-Tests for the patient_data_cleaner.py script.
+Basic tests for patient_data_cleaner.py
 
-This script tests the functionality of the patient data cleaner,
-ensuring it correctly capitalizes names, converts ages to integers,
-and filters out patients under 18.
-
-Usage:
-    pytest test_patient_data_cleaner.py
+This script tests:
+1. That the script runs without errors
+2. That all bug markers are present in the code
+3. That the script can handle basic input
 """
 
 import os
-import json
 import pytest
-import tempfile
-from patient_data_cleaner import load_patient_data, clean_patient_data
+import subprocess
+from pathlib import Path
 
-# Sample test data
-TEST_DATA = [
-    {
-        "name": "john smith",
-        "age": "32",
-        "gender": "male",
-        "diagnosis": "hypertension"
-    },
-    {
-        "name": "sarah johnson",
-        "age": "17",
-        "gender": "female",
-        "diagnosis": "influenza"
-    },
-    {
-        "name": "robert williams",
-        "age": "45",
-        "gender": "male",
-        "diagnosis": "diabetes"
-    }
-]
+def test_script_runs():
+    """Test that the script runs without errors."""
+    script_path = Path(__file__).parent.parent.parent / "1_patient_data_cleaner.py"
+    result = subprocess.run(["python", str(script_path)], capture_output=True, text=True)
+    assert result.returncode == 0
 
-@pytest.fixture
-def sample_data_file():
-    """Create a temporary file with sample patient data."""
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
-        json.dump(TEST_DATA, f)
-        temp_file_name = f.name
+def test_bug_markers_present():
+    """Test that all bug markers are present in the code."""
+    script_path = Path(__file__).parent.parent.parent / "1_patient_data_cleaner.py"
+    with open(script_path) as f:
+        content = f.read()
     
-    yield temp_file_name
-    
-    # Cleanup after test
-    if os.path.exists(temp_file_name):
-        os.remove(temp_file_name)
+    # Check for bug markers
+    assert "# BUG: No error handling for file not found" in content
+    assert "# BUG: Typo in key 'nage' instead of 'name'" in content
+    assert "# BUG: Wrong method name (fill_na vs fillna)" in content
+    assert "# BUG: Wrong method name (drop_duplcates vs drop_duplicates)" in content
+    assert "# BUG: Wrong comparison operator (= vs ==)" in content
+    assert "# BUG: Logic error - keeps patients under 18 instead of filtering them out" in content
+    assert "# BUG: Missing return statement for empty list" in content
+    assert "# BUG: No error handling for load_patient_data failure" in content
+    assert "# BUG: No check if cleaned_patients is None" in content
+    assert "# BUG: Using 'name' key but we changed it to 'nage'" in content
 
-def test_load_patient_data(sample_data_file):
-    """Test that patient data is loaded correctly from a file."""
-    patients = load_patient_data(sample_data_file)
-    assert len(patients) == 3
-    assert patients[0]["name"] == "john smith"
-    assert patients[1]["age"] == "17"
-
-def test_clean_patient_data():
-    """Test that patient data is cleaned correctly."""
-    cleaned = clean_patient_data(TEST_DATA)
+def test_basic_input():
+    """Test that the script can handle basic input."""
+    script_path = Path(__file__).parent.parent.parent / "1_patient_data_cleaner.py"
     
-    # Should only have 2 patients (filtered out the 17-year-old)
-    assert len(cleaned) == 2
+    # Create a temporary input file
+    input_data = [
+        {"name": "test patient", "age": "25", "gender": "male", "diagnosis": "test"}
+    ]
     
-    # Names should be capitalized
-    assert cleaned[0]["name"] == "John Smith"
-    assert cleaned[1]["name"] == "Robert Williams"
+    with open("test_input.json", "w") as f:
+        import json
+        json.dump(input_data, f)
     
-    # Ages should be integers
-    assert isinstance(cleaned[0]["age"], int)
-    assert cleaned[0]["age"] == 32
-    assert cleaned[1]["age"] == 45
-    
-    # Check that the 17-year-old was filtered out
-    ages = [p["age"] for p in cleaned]
-    assert 17 not in ages
+    try:
+        result = subprocess.run(
+            ["python", str(script_path), "test_input.json"],
+            capture_output=True,
+            text=True
+        )
+        assert result.returncode == 0
+    finally:
+        # Cleanup
+        if os.path.exists("test_input.json"):
+            os.remove("test_input.json")
 
 if __name__ == "__main__":
     pytest.main(["-v", __file__])

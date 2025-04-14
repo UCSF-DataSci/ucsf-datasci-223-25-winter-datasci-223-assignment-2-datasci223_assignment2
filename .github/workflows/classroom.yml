@@ -47,7 +47,9 @@ jobs:
     
     - name: Run tests
       run: |
-        pytest .github/tests/test_assignment.py -v
+        pytest .github/tests/test_patient_data_cleaner.py -v
+        pytest .github/tests/test_med_dosage_calculator.py -v
+        pytest .github/tests/test_cohort_analysis.py -v
     
     - name: Check for README.md
       run: |
