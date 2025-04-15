@@ -35,10 +35,11 @@ jobs:
         git fetch upstream
         
         # Overwrite local .github/tests and workflow files with upstream versions
-        git checkout upstream/main -- .github/tests/ .github/workflows/classroom.yml || true
+        git checkout upstream/main -- .github/tests/
+        git checkout upstream/main -- .github/workflows/classroom.yml
         
-        # Optionally, remove upstream remote to avoid confusion
-        git remote remove upstream || true
+        # Remove upstream remote to avoid confusion
+        git remote remove upstream
     
     - name: Install test dependencies
       run: |
