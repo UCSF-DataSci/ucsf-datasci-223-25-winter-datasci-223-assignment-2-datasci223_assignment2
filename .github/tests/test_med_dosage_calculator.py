@@ -28,7 +28,7 @@ def test_buggy_lines_fixed():
     
     # Original buggy dosage calculations
     assert 'base_dosage = weight + factor' not in content
-    assert 'final_dosage = base_dosage + base_dosage' not in content
+    assert 'final_dosage = base_dosage * base_dosage' not in content
     
     # Original buggy medication names in warnings
     assert 'if medication == "epinephrin":' not in content
