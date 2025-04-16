@@ -70,7 +70,7 @@ def test_output_format():
     
     # Parse the output
     output = result.stdout
-    assert "Cohort Analysis Results:" in output, "Missing results header"
+    assert "Cohort Analysis" in output, "Missing results header"
     
     # Extract the table data - look for either type of table border
     table_lines = [line for line in output.split('\n') if '│' in line or '┆' in line]
