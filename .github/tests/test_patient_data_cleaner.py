@@ -33,7 +33,7 @@ def test_buggy_lines_fixed():
 #    assert "if not cleaned_patients:\n        return None" not in content
     
     # Original buggy key usage after change
-    assert "print(f\"Name: {patient['name']}, Age: {patient['age']}, Diagnosis: {patient['diagnosis']}\")" not in content
+    assert "print(f\"Name: {patient['nage']}, Age: {patient['age']}, Diagnosis: {patient['diagnosis']}\")" not in content
 
 def test_script_runs():
     """Test that the script runs without errors."""
